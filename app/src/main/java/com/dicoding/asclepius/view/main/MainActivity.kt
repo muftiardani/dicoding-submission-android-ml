@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, mainViewModel.currentImageUri.value.toString())
         startActivity(intent)
 
-        binding.previewImageView.setImageResource(R.drawable.ic_place_holder)
+        binding.previewImageView.setImageResource(R.drawable.ic_image_placeholder)
     }
 
     private fun showToast(message: String) {

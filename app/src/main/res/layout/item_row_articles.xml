@@ -60,4 +60,5 @@
             app:layout_goneMarginBottom="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

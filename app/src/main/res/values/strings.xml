@@ -9,12 +9,15 @@
     <string name="history">History</string>
     <string name="score">Score</string>
     <string name="prediction">Prediction</string>
-    <string name="delete_button">delete button</string>
+    <string name="delete_button">Delete button</string>
     <string name="title">Title</string>
-    <string name="description">description</string>
+    <string name="description">Description</string>
     <string name="save">Save</string>
     <string name="image_will_be_analyzed">Image will be analyzed</string>
-    <string name="image_selected_for_analyzed">image selected for analyzed</string>
-    <string name="image_articles">image articles</string>
+    <string name="image_selected_for_analyzed">Image selected for analyzed</string>
+    <string name="image_articles">Image articles</string>
     <string name="analyzed_image_in_history">Analyzed image in history</string>
+    <string name="classification_failed">Classification Failed</string>
+    <string name="choose_image_first">Choose image first</string>
+    <string name="analyze_failed">Analyze failed</string>
 </resources>

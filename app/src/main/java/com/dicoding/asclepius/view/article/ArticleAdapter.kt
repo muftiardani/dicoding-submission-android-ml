@@ -17,45 +17,58 @@ class ArticleAdapter(private val context: Context) :
     ListAdapter<ArticlesItem, ArticleAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRowArticlesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(
+            ItemRowArticlesBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = getItem(position)
-
         holder.bind(article)
-
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "Membuka ${article.title}", Toast.LENGTH_SHORT).show()
-
-            if (article.url == null) {
-                Toast.makeText(context, "Link tidak ditemukan!!", Toast.LENGTH_SHORT).show()
-            }
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-            context.startActivity(intent)
+            handleArticleClick(article)
         }
     }
 
     override fun submitList(list: List<ArticlesItem>?) {
-        val filteredList = list?.filter { it.title != "[Removed]" && it.title != null }
+        val filteredList = list?.filterNot {
+            it.title == "[Removed]" || it.title == null
+        }
         super.submitList(filteredList)
+    }
+
+    private fun handleArticleClick(article: ArticlesItem) {
+        Toast.makeText(context, "Membuka ${article.title}", Toast.LENGTH_SHORT).show()
+
+        if (article.url == null) {
+            Toast.makeText(context, "Link tidak ditemukan!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+        context.startActivity(intent)
     }
 
     class ViewHolder(private val binding: ItemRowArticlesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(article: ArticlesItem) {
 
-            binding.tvTitle.text = article.title
-            binding.tvDescription.text = article.description
-            Glide.with(binding.root)
-                .load(article.urlToImage)
-                .into(binding.imageNews)
+        fun bind(article: ArticlesItem) {
+            binding.apply {
+                tvTitle.text = article.title
+                tvDescription.text = article.description
+                Glide.with(root)
+                    .load(article.urlToImage)
+                    .into(imageNews)
+            }
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ArticlesItem>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ArticlesItem>() {
             override fun areItemsTheSame(oldItem: ArticlesItem, newItem: ArticlesItem): Boolean {
                 return oldItem == newItem
             }

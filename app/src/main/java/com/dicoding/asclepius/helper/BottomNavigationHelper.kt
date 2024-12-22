@@ -1,6 +1,5 @@
 package com.dicoding.asclepius.helper
 
-// BottomNavigationHelper.kt
 import android.app.Activity
 import android.content.Intent
 import com.dicoding.asclepius.R
@@ -10,33 +9,35 @@ import com.dicoding.asclepius.view.history.HistoryActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object BottomNavigationHelper {
-
     fun setupBottomNavigation(activity: Activity, bottomNavigationView: BottomNavigationView) {
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.analyze -> {
-                    if (activity !is MainActivity) {
-                        activity.startActivity(Intent(activity, MainActivity::class.java))
-                        activity.overridePendingTransition(0, 0)
-                    }
-                    true
-                }
-                R.id.article -> {
-                    if (activity !is ArticleActivity) {
-                        activity.startActivity(Intent(activity, ArticleActivity::class.java))
-                        activity.overridePendingTransition(0, 0)
-                    }
-                    true
-                }
-                R.id.history -> {
-                    if (activity !is HistoryActivity) {
-                        activity.startActivity(Intent(activity, HistoryActivity::class.java))
-                        activity.overridePendingTransition(0, 0)
-                    }
-                    true
-                }
-                else -> false
-            }
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            handleNavigationItemSelected(activity, menuItem.itemId)
+        }
+    }
+
+    private fun handleNavigationItemSelected(activity: Activity, itemId: Int): Boolean {
+        val targetActivity = when (itemId) {
+            R.id.analyze -> MainActivity::class.java
+            R.id.article -> ArticleActivity::class.java
+            R.id.history -> HistoryActivity::class.java
+            else -> return false
+        }
+
+        if (!isCurrentActivity(activity, targetActivity)) {
+            navigateToActivity(activity, targetActivity)
+        }
+
+        return true
+    }
+
+    private fun isCurrentActivity(activity: Activity, targetActivity: Class<out Activity>): Boolean {
+        return activity::class.java == targetActivity
+    }
+
+    private fun navigateToActivity(activity: Activity, targetActivity: Class<out Activity>) {
+        activity.apply {
+            startActivity(Intent(this, targetActivity))
+            overridePendingTransition(0, 0)
         }
     }
 }

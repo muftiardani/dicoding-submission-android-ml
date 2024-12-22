@@ -12,7 +12,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class ArticleViewModel : ViewModel() {
     private val _listArticle = MutableLiveData<List<ArticlesItem>>()
     val listArticle: LiveData<List<ArticlesItem>> = _listArticle
@@ -24,33 +23,36 @@ class ArticleViewModel : ViewModel() {
     val isError: LiveData<Boolean> = _isError
 
     init {
-        getArticle(QUERY, CATEGORY, LANGUAGE, API_KEY)
+        fetchArticles()
     }
 
-    private fun getArticle(query: String, category: String, language: String, apiKey: String) {
+    private fun fetchArticles() {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getTopHeadlines(query, category, language, apiKey)
-        client.enqueue(object : Callback<DetailNewsResponse> {
-            override fun onResponse(
-                call: Call<DetailNewsResponse>,
-                response: Response<DetailNewsResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _isError.value = false
-                    _listArticle.value = response.body()?.articles
-                } else {
-                    _isError.value = true
-                    Log.e(TAG, "onFailure: ${response.message()}")
+        ApiConfig.getApiService().getTopHeadlines(QUERY, CATEGORY, LANGUAGE, API_KEY)
+            .enqueue(object : Callback<DetailNewsResponse> {
+                override fun onResponse(
+                    call: Call<DetailNewsResponse>,
+                    response: Response<DetailNewsResponse>
+                ) {
+                    _isLoading.value = false
+                    if (response.isSuccessful && response.body() != null) {
+                        _isError.value = false
+                        _listArticle.value = response.body()?.articles
+                    } else {
+                        handleError("Error: ${response.message()}")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<DetailNewsResponse>, t: Throwable) {
-                _isLoading.value = false
-                _isError.value = true
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
+                override fun onFailure(call: Call<DetailNewsResponse>, t: Throwable) {
+                    handleError(t.message ?: "Unknown error occurred")
+                }
+            })
+    }
+
+    private fun handleError(errorMessage: String) {
+        _isLoading.value = false
+        _isError.value = true
+        Log.e(TAG, "Error: $errorMessage")
     }
 
     companion object {
@@ -58,7 +60,5 @@ class ArticleViewModel : ViewModel() {
         private const val QUERY = "cancer"
         private const val CATEGORY = "health"
         private const val LANGUAGE = "en"
-
     }
-
 }

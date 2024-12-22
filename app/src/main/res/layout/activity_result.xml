@@ -17,7 +17,7 @@
             android:layout_height="400dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/image_selected_for_analyzed"
-            app:srcCompat="@drawable/ic_place_holder"/>
+            app:srcCompat="@drawable/ic_image_placeholder"/>
 
         <TextView
             android:id="@+id/result_text"
@@ -39,4 +39,5 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
+
 </ScrollView>
