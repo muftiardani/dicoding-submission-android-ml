@@ -112,14 +112,12 @@ class MainActivity : AppCompatActivity() {
                 override fun onResults(result: List<Classifications>?, inferenceTime: Long) {
                     result?.let { it ->
                         if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-                            // Mengurutkan kategori berdasarkan skor terbesar
                             val sortedCategories = it[0].categories.sortedByDescending { category -> category.score }
 
                             val highestCategory = sortedCategories[0]
                             prediction = highestCategory.label
                             score = NumberFormat.getPercentInstance().format(highestCategory.score)
 
-                            // Mengirimkan hanya hasil terbesar ke ResultActivity
                             results = "$prediction $score"
                         } else {
                             showToast("Analyze failed, try again")

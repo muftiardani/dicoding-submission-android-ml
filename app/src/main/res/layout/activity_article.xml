@@ -18,7 +18,7 @@
         tools:listitem="@layout/item_row_articles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_bottom"
+        app:layout_constraintBottom_toTopOf="@id/navBottom"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_bottom"
+        android:id="@+id/navBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"

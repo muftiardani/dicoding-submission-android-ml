@@ -53,12 +53,12 @@
         android:layout_marginBottom="8dp"
         android:text="@string/analyze"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/nav_bottom"
+        app:layout_constraintBottom_toTopOf="@id/navBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_bottom"
+        android:id="@+id/navBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundTint="@color/light_blue"
