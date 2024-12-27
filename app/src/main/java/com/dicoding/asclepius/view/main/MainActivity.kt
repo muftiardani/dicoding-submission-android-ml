@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
         imageClassifierHelper = ImageClassifierHelper(
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
-                override fun onResults(result: List<Classifications>?, inferenceTime: Long) {
-                    result?.let { it ->
+                override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
+                    results?.let { it ->
                         if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
                             val sortedCategories = it[0].categories.sortedByDescending { category -> category.score }
 
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                             prediction = highestCategory.label
                             score = NumberFormat.getPercentInstance().format(highestCategory.score)
 
-                            results = "$prediction $score"
+                            this@MainActivity.results = "$prediction $score"
                         } else {
                             showToast("Analyze failed, try again")
                         }
